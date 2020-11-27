@@ -1,3 +1,11 @@
 .crypto-coin-exchange-list-div {
     margin-top: 5%;
 }
+
+.bg-green {
+    background-color: green!important;
+}
+
+.bg-red {
+    background-color: red!important;
+}

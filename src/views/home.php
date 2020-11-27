@@ -22,16 +22,20 @@
             <?php
             foreach ($data->data as $key => $value) {
                 echo
-                    '<tr class="'. strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $value->name))) .'">' .
+                    '<tr class="'.$value->id.'">' .
                          '<td class="rank">' . $value->rank . '</td>' .
                         '<td class="name">' . $value->name . '-' . $value->symbol . '</td>' .
-                        '<td class="price">&#36;' . number_format($value->priceUsd, 2, '.', ',') . '</td>' .
+                        '<td class="price">&#36;<span>' . $value->priceUsd . '</span></td>' .
                         '<td class="market_cap">' . round(number_format($value->marketCapUsd, 4, ',', '.'), 2) . 'b</td>' .
                         '<td class="vwap">&#36;' . number_format($value->vwap24Hr, 2, '.', ',') . '</td>' .
                         '<td class="supply">' . round(number_format($value->supply, 2, ',', '.'), 2) . 'm</td>' .
                         '<td class="volume">' . round(number_format($value->volumeUsd24Hr, 4, ',', '.'), 2) . 'b</td>' .
                         '<td class="change">' . round($value->changePercent24Hr, 2) . '%</td>' .
-                        '<td>Trade</td>' .
+                        '<td>' .
+                                '<button type="button" class="btn btn-primary trade_button" data-toggle="modal" data-target="#staticBackdrop">' .
+                                  'Trade' .
+                                '</button>' .
+                        '</td>' .
                     '</tr>';
             }
             ?>
@@ -39,36 +43,38 @@
         </table>
     </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
-<script src="//cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.3/socket.io.js" integrity="sha512-Jr0UIR/Q8MUX+93zjDOhuDUKLqJZObtwpkLJQcR9qMaLgL0thet39IORuavUaZFkZ8a4ktrUsKPM9mf5LWMduA==" crossorigin="anonymous"></script>
 
-<script type="text/javascript">
-    $(document).ready( function () {
-        $('#crypto-data-datatable').DataTable();
+<!-- Modal -->
+<div class="modal fade " id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Coin Trade</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="coin_price">Coin Price ($)</label>
+                        <input type="text" class="form-control" id="coin_price" value="12414124124">
+                    </div>
+                    <div class="form-group">
+                        <label for="quantity">Quantity</label>
+                        <input type="text" class="form-control" id="quantity" value="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="total_price">Total Price ($)</label>
+                        <input type="text" class="form-control" id="total_price" value="12414124124">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </form>
+            </div>
 
-        //datatable process
-        let table = $('#crypto-data-datatable').DataTable();
-
-        //navbar menu activity
-        let window_href = window.location.href;
-        $('.nav-item').find('a').each(function (index, item) {
-            $(item).parent().removeClass('active');
-            if (window_href === item.href) {
-                $(item).parent().addClass('active');
-            }
-        });
-    });
-
-    //Socket io process
-    const pricesWs = new WebSocket('wss://ws.coincap.io/prices?assets=bitcoin,ethereum,monero,litecoin')
-
-    pricesWs.onmessage = function (msg) {
-        let object_json = jQuery.parseJSON(msg.data);
-        let object_keys = Object.keys(object_json);
-        $(object_keys).each(function (index, item) {
-            $('.' + item).find('.price').html('&#36;'+object_json[item]);
-        });
-    }
-</script>
+        </div>
+    </div>
+</div>

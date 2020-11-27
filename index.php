@@ -1,10 +1,13 @@
 <?php
 
 use src\app\Router;
+use src\app\CoinCap;
 use src\controllers\HomeController;
+use src\controllers\WalletController;
 
 require 'src/app/Router.php';
 require 'src/controllers/HomeController.php';
+require 'src/controllers/WalletController.php';
 
 $path = $_SERVER['REQUEST_URI'];
 $method = $_SERVER['REQUEST_METHOD'];
@@ -16,7 +19,13 @@ $router->get('/', function(){
 });
 
 $router->get('/wallet', function(){
-    echo '<h1>wallet page</h1>';
+    $home = new WalletController();
+    $home->index();
+});
+
+$router->get('/crypto_coin_exchange_data', function(){
+    $data = new CoinCap();
+    echo $data->get_json_data();
 });
 
 $router->run();

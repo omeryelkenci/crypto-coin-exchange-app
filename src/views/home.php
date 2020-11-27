@@ -39,3 +39,36 @@
         </table>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+<script src="//cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.3/socket.io.js" integrity="sha512-Jr0UIR/Q8MUX+93zjDOhuDUKLqJZObtwpkLJQcR9qMaLgL0thet39IORuavUaZFkZ8a4ktrUsKPM9mf5LWMduA==" crossorigin="anonymous"></script>
+
+<script type="text/javascript">
+    $(document).ready( function () {
+        $('#crypto-data-datatable').DataTable();
+
+        //datatable process
+        let table = $('#crypto-data-datatable').DataTable();
+
+        //navbar menu activity
+        let window_href = window.location.href;
+        $('.nav-item').find('a').each(function (index, item) {
+            $(item).parent().removeClass('active');
+            if (window_href === item.href) {
+                $(item).parent().addClass('active');
+            }
+        });
+    });
+
+    //Socket io process
+    const pricesWs = new WebSocket('wss://ws.coincap.io/prices?assets=bitcoin,ethereum,monero,litecoin')
+
+    pricesWs.onmessage = function (msg) {
+        let object_json = jQuery.parseJSON(msg.data);
+        let object_keys = Object.keys(object_json);
+        $(object_keys).each(function (index, item) {
+            $('.' + item).find('.price').html('&#36;'+object_json[item]);
+        });
+    }
+</script>

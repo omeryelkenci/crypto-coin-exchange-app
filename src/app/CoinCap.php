@@ -2,7 +2,7 @@
 
 namespace src\app;
 
-class CryptoCoinExchange {
+class CoinCap {
     private function request($url)
     {
         $curl = curl_init();
@@ -20,6 +20,9 @@ class CryptoCoinExchange {
     {
         $api_url = 'https://api.coincap.io/v2/assets';
         $api_result  = $this->request($api_url);
+        file_put_contents(dirname(dirname(dirname(__FILE__))) . "/data/data.json", $api_result);
+
+
 
         return $api_result;
     }

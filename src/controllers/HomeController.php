@@ -2,13 +2,13 @@
 
 namespace src\controllers;
 
-require 'src/app/CryptoCoinExchange.php';
+require 'src/app/CoinCap.php';
 
-use src\app\CryptoCoinExchange;
+use src\app\CoinCap;
 
 class HomeController {
     public function index() {
-        $crypto_data_controller = New CryptoCoinExchange();
+        $crypto_data_controller = New CoinCap();
         $data =  json_decode($crypto_data_controller->get_json_data());
         $title = 'Home';
         $content = 'src/views/home.php';

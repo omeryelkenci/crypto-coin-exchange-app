@@ -62,7 +62,7 @@
                     </div>
                     <div class="form-group">
                         <label for="quantity">Quantity</label>
-                        <input type="text" class="form-control" id="quantity" value="1">
+                        <input type="number" class="form-control" min="1" id="quantity" value="1">
                     </div>
                     <div class="form-group">
                         <label for="total_price">Total Price ($)</label>

@@ -67,6 +67,7 @@
         });
     }
 
+    //Trade modal process
     $('.trade_button').click(function () {
         $('.modal-body').find('form').removeClass();
         $('.modal-body').find('form').addClass($(this).parent().parent().attr('class').split(' ')[0]);

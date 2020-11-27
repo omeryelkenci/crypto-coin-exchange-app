@@ -2,12 +2,14 @@
 
 use src\app\Router;
 use src\app\CoinCap;
+use src\controllers\Auth\LoginController;
 use src\controllers\Auth\RegisterController;
 use src\controllers\HomeController;
 use src\controllers\WalletController;
 
 require 'src/app/Router.php';
 require 'src/controllers/Auth/RegisterController.php';
+require 'src/controllers/Auth/LoginController.php';
 require 'src/controllers/HomeController.php';
 require 'src/controllers/WalletController.php';
 
@@ -15,24 +17,44 @@ $path = $_SERVER['REQUEST_URI'];
 $method = $_SERVER['REQUEST_METHOD'];
 $router = new Router($path, $method);
 
+$router->get('/login', function(){
+    $login = new LoginController();
+    $login->get();
+});
+
+$router->post('/login', function(){
+    $login = new LoginController();
+    $login->post();
+});
+
+
 $router->get('/register', function(){
-    $home = new RegisterController();
-    $home->get();
+
+    $register = new RegisterController();
+    $register->get();
 });
 
 $router->post('/register', function(){
-    $home = new RegisterController();
-    $home->post();
+    $register = new RegisterController();
+    $register->post();
 });
 
 $router->get('/', function(){
+    session_start();
+
+    // Check if the user is logged in, if not then redirect him to login page
+    if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+        header("location: login");
+        exit;
+    }
+
     $home = new HomeController();
     $home->index();
 });
 
 $router->get('/wallet', function(){
-    $home = new WalletController();
-    $home->index();
+    $wallet = new WalletController();
+    $wallet->index();
 });
 
 $router->get('/crypto_coin_exchange_data', function(){

@@ -3,6 +3,14 @@ namespace src\controllers\Auth;
 
 class RegisterController {
     public function get() {
+        // Initialize the session
+        session_start();
+
+        // Check if the user is already logged in, if yes then redirect him to welcome page
+        if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+            header("location: /");
+            exit;
+        }
         require 'src/views/auth/register.php';
     }
 
@@ -82,7 +90,7 @@ class RegisterController {
                     // Attempt to execute the prepared statement
                     if (mysqli_stmt_execute($stmt)) {
                         // Redirect to login page
-                        header("location: login.php");
+                        header("location: login");
                     } else {
                         echo "Something went wrong. Please try again later.";
                     }

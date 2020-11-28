@@ -45,10 +45,13 @@ $router->post('/register', function(){
 });
 
 $router->get('/', function(){
-
-
     $home = new HomeController();
     $home->index();
+});
+
+$router->get('/crypto_coin_exchange_data', function(){
+    $data = new CoinCap();
+    echo $data->get_json_data();
 });
 
 $router->get('/wallet', function(){
@@ -61,9 +64,10 @@ $router->post('/update_user_balance', function(){
     $wallet->update_user_balance();
 });
 
-$router->get('/crypto_coin_exchange_data', function(){
-    $data = new CoinCap();
-    echo $data->get_json_data();
+$router->post('/trade_coin', function(){
+    $wallet = new WalletController();
+    $wallet->trade_coin();
 });
+
 
 $router->run();

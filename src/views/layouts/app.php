@@ -79,9 +79,10 @@
         $('.modal-body').find('form').removeClass();
         $('.modal-body').find('form').addClass($(this).parent().parent().attr('class').split(' ')[0]);
         $('.modal-title').html($(this).parent().parent().find('.name').html());
-        $('#coin_price').val($(this).parent().parent().find('.price').find('span').html());
 
-        $('#total_price').val($('#coin_price').val() * $('#quantity').val());
+        $('#coin_id').attr('value', $(this).parent().parent().attr('class').split(' ')[0]);
+        $('#coin_price').attr('value', $(this).parent().parent().find('.price').find('span').html());
+        $('#total_price').attr('value', $('#coin_price').val() * $('#quantity').val());
     });
 </script>
 </html>

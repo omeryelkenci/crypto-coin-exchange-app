@@ -44,7 +44,7 @@
     </div>
 </div>
 
-<!-- Modal -->
+<!-- Trade Modal -->
 <div class="modal fade " id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -55,22 +55,26 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form>
+                <form action="/trade_coin" method="POST">
+                    <div class="form-group">
+                        <label for="coin_id">Coin ID</label>
+                        <input type="text" class="form-control" name="coin_id" id="coin_id" placeholder="Coin Price">
+                    </div>
                     <div class="form-group">
                         <label for="coin_price">Coin Price ($)</label>
-                        <input type="text" class="form-control" id="coin_price" value="12414124124">
+                        <input  required type="text" class="form-control" name="coin_price" id="coin_price" placeholder="Coin Price">
                     </div>
                     <div class="form-group">
                         <label for="quantity">Quantity</label>
-                        <input type="number" class="form-control" min="1" id="quantity" value="1">
+                        <input required type="text" class="form-control" min="1" name="quantity" id="quantity" value="1">
                     </div>
                     <div class="form-group">
                         <label for="total_price">Total Price ($)</label>
-                        <input type="text" class="form-control" id="total_price" value="12414124124">
+                        <input  required type="text" class="form-control" id="total_price" name="total_price" placeholder="Total Price">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">Apply Trade</button>
                     </div>
                 </form>
             </div>

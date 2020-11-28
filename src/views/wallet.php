@@ -10,6 +10,27 @@
             </div>
         </div>
     </div>
+    <div class="table-responsive">
+        <table id="crypto-data-datatable" class="table table-striped">
+            <thead>
+
+            <tr role="row">
+                <th class="sorting" tabindex="0">Coin ID</th>
+                <th class="sorting" tabindex="0">Quantity</th>
+            </tr>
+            </thead>
+            <tbody>
+                    <?php
+                    foreach ($user_coins as $user_coin) {
+                        echo '<tr>' .
+                        '<td class="coin_id">bitcoin</td>' .
+                        '<td class="quantitiy">5</td>' .
+                        '</tr>';
+                    }
+                    ?>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <?php if (isset($_SESSION["message"])) echo $_SESSION["message"]; ?>
@@ -27,7 +48,7 @@
                 <form action="/update_user_balance" method="post">
                     <div class="form-group">
                         <label for="balance">Balance ($)</label>
-                        <input type="text" class="form-control" id="balance" name="balance" value="">
+                        <input required type="text" class="form-control" id="balance" name="balance" value="">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

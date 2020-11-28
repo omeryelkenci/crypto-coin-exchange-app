@@ -40,7 +40,25 @@ class WalletController
                 }
             }
 
-
+            $sql = "SELECT SUM('purchased_quantity') FROM user_purchase_histories WHERE id = ? GROUP BY coin_id";
+            if ($stmt = mysqli_prepare($db_config, $sql)) {
+                // Bind variables to the prepared statement as parameters
+                mysqli_stmt_bind_param($stmt, "s", $param_user_id);
+                // Set parameters
+                $param_user_id = $_SESSION["id"];
+                // Attempt to execute the prepared statement
+                if (mysqli_stmt_execute($stmt)) {
+                    /* store result */
+                    mysqli_stmt_store_result($stmt);
+                    if (mysqli_stmt_num_rows($stmt) == 1) {
+                        $stmt->execute();
+                        $result = $stmt->get_result(); // note - this requires the mysqlnd driver
+                        $user_coins = $result->fetch_array(MYSQLI_ASSOC);
+                        $result->free();
+                        $stmt->close();
+                    }
+                }
+            }
         }
 
         require 'src/views/layouts/app.php';
@@ -111,6 +129,41 @@ class WalletController
         } else {
             echo "Oops! Something went wrong. Please try again later. ";
             return 1;
+        }
+    }
+
+    public function trade_coin() {
+        // Include config file
+        $db_config = require_once "config.php";
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            if (empty(trim($_POST["coin_id"])) || empty(trim($_POST["coin_price"])) || empty(trim($_POST["quantity"])) || empty(trim($_POST["total_price"]))) {
+                echo  "Please enter required inputs.";
+                return 1;
+            } else {
+                // Prepare an insert statement
+                $sql = "INSERT INTO user_purchase_histories (user_id, coin_id, purchased_coin_price, purchased_total_price, purchased_quantity) 
+                            VALUES (?, ?, ?, ?, ?)";
+
+                if ($stmt = mysqli_prepare($db_config, $sql)) {
+                    // Bind variables to the prepared statement as parameters
+                    mysqli_stmt_bind_param($stmt, "sssss", $param_user_id, $param_coin_id, $param_coin_price, $param_total_price, $param_quantity);
+
+                    // Set parameters
+                    $param_user_id = $_SESSION["id"];
+                    $param_coin_id = $_POST["coin_id"];
+                    $param_coin_price = $_POST["coin_price"];
+                    $param_total_price = $_POST["total_price"];
+                    $param_quantity = $_POST["quantity"];
+
+                    if (mysqli_stmt_execute($stmt)) {
+                        /* store result */
+                        mysqli_stmt_store_result($stmt);
+
+                            header("location: /wallet");
+                    }
+                }
+            }
         }
     }
 

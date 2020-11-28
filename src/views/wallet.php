@@ -21,11 +21,13 @@
             </thead>
             <tbody>
                     <?php
-                    foreach ($user_coins as $user_coin) {
-                        echo '<tr>' .
-                        '<td class="coin_id">bitcoin</td>' .
-                        '<td class="quantitiy">5</td>' .
-                        '</tr>';
+                    if (isset($user_coins)) {
+                        foreach ($user_coins as $user_coin) {
+                            echo '<tr>' .
+                            '<td class="coin_id">bitcoin</td>' .
+                            '<td class="quantitiy">5</td>' .
+                            '</tr>';
+                        }
                     }
                     ?>
             </tbody>

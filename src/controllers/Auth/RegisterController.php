@@ -16,7 +16,7 @@ class RegisterController {
         $username = $password = $confirm_password = "";
         $username_err = $password_err = $confirm_password_err = "";
 
-        $link = require_once "config.php";
+        $db_config = require_once "config.php";
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Validate username
@@ -26,9 +26,7 @@ class RegisterController {
                 // Prepare a select statement
                 $sql = "SELECT id FROM users WHERE username = ?";
 
-
-
-                if ($stmt = mysqli_prepare($link, $sql)) {
+                if ($stmt = mysqli_prepare($db_config, $sql)) {
                     // Bind variables to the prepared statement as parameters
                     mysqli_stmt_bind_param($stmt, "s", $param_username);
 
@@ -79,7 +77,7 @@ class RegisterController {
                 // Prepare an insert statement
                 $sql = "INSERT INTO users (username, password) VALUES (?, ?)";
 
-                if ($stmt = mysqli_prepare($link, $sql)) {
+                if ($stmt = mysqli_prepare($db_config, $sql)) {
                     // Bind variables to the prepared statement as parameters
                     mysqli_stmt_bind_param($stmt, "ss", $param_username, $param_password);
 
@@ -103,7 +101,7 @@ class RegisterController {
                 header("location: /register");
             }
             // Close connection
-            mysqli_close($link);
+            mysqli_close($db_config);
         }
 
     }

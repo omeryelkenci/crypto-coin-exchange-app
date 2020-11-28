@@ -26,7 +26,7 @@ class LoginController
         }
 
         // Include config file
-        $link = require_once "config.php";
+        $config = require_once "config.php";
 
         // Define variables and initialize with empty values
         $username = $password = "";
@@ -53,7 +53,7 @@ class LoginController
                 // Prepare a select statement
                 $sql = "SELECT id, username, password FROM users WHERE username = ?";
 
-                if ($stmt = mysqli_prepare($link, $sql)) {
+                if ($stmt = mysqli_prepare($config, $sql)) {
                     // Bind variables to the prepared statement as parameters
                     mysqli_stmt_bind_param($stmt, "s", $param_username);
 
@@ -103,7 +103,7 @@ class LoginController
             }
             header("location: /login");
             // Close connection
-            mysqli_close($link);
+            mysqli_close($config);
         }
     }
 

@@ -56,6 +56,11 @@ $router->get('/wallet', function(){
     $wallet->index();
 });
 
+$router->post('/update_user_balance', function(){
+    $wallet = new WalletController();
+    $wallet->update_user_balance();
+});
+
 $router->get('/crypto_coin_exchange_data', function(){
     $data = new CoinCap();
     echo $data->get_json_data();

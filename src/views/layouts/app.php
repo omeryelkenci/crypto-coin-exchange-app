@@ -22,6 +22,13 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/wallet">Wallet</a>
                 </li>
+                <?php
+                    if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
+                        echo '<li class="nav-item">' .
+                                '<a class="nav-link" href="/logout">Logout</a>' .
+                        '</li>';
+                    }
+                ?>
             </ul>
         </div>
     </div>

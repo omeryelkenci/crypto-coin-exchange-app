@@ -4,13 +4,9 @@ namespace src\controllers\Auth;
 
 class LoginController
 {
-
     public function get()
     {
-        // Initialize the session
         session_start();
-
-        // Check if the user is already logged in, if yes then redirect him to welcome page
         if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
             header("location: /");
             exit;
@@ -88,23 +84,34 @@ class LoginController
                                 } else {
                                     // Display an error message if password is not valid
                                     $password_err = "The password you entered was not valid.";
+                                    header("location: /login");
                                 }
                             }
                         } else {
                             // Display an error message if username doesn't exist
                             $username_err = "No account found with that username.";
+                            header("location: /login");
                         }
                     } else {
                         echo "Oops! Something went wrong. Please try again later.";
+                        header("location: /login");
                     }
-
+                    header("location: /login");
                     // Close statement
                     mysqli_stmt_close($stmt);
                 }
             }
-
+            header("location: /login");
             // Close connection
             mysqli_close($link);
         }
+    }
+
+    public function logout() {
+        session_start();
+        $_SESSION = array();
+        session_destroy();
+        header("location: /login");
+        exit;
     }
 }

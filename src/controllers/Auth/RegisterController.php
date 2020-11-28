@@ -2,11 +2,9 @@
 namespace src\controllers\Auth;
 
 class RegisterController {
-    public function get() {
-        // Initialize the session
-        session_start();
 
-        // Check if the user is already logged in, if yes then redirect him to welcome page
+    public function get() {
+        session_start();
         if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] === true) {
             header("location: /");
             exit;
@@ -18,6 +16,8 @@ class RegisterController {
         $username = $password = $confirm_password = "";
         $username_err = $password_err = $confirm_password_err = "";
 
+        $link = require_once "config.php";
+
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Validate username
             if (empty(trim($_POST["username"]))) {
@@ -26,7 +26,7 @@ class RegisterController {
                 // Prepare a select statement
                 $sql = "SELECT id FROM users WHERE username = ?";
 
-                $link = require_once "config.php";
+
 
                 if ($stmt = mysqli_prepare($link, $sql)) {
                     // Bind variables to the prepared statement as parameters
@@ -90,16 +90,18 @@ class RegisterController {
                     // Attempt to execute the prepared statement
                     if (mysqli_stmt_execute($stmt)) {
                         // Redirect to login page
-                        header("location: login");
+                        header("location: /login");
                     } else {
                         echo "Something went wrong. Please try again later.";
+                        header("location: /register");
                     }
 
                     // Close statement
                     mysqli_stmt_close($stmt);
                 }
+            } else {
+                header("location: /register");
             }
-
             // Close connection
             mysqli_close($link);
         }

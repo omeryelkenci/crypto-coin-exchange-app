@@ -27,6 +27,11 @@ $router->post('/login', function(){
     $login->post();
 });
 
+$router->get('/logout', function(){
+    $login = new LoginController();
+    $login->logout();
+});
+
 
 $router->get('/register', function(){
 
@@ -40,13 +45,7 @@ $router->post('/register', function(){
 });
 
 $router->get('/', function(){
-    session_start();
 
-    // Check if the user is logged in, if not then redirect him to login page
-    if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
-        header("location: login");
-        exit;
-    }
 
     $home = new HomeController();
     $home->index();

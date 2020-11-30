@@ -35,10 +35,7 @@ if ($stmt = mysqli_prepare($db_config, $sql)) {
                     }
                 }
             }
-        } else {
-            echo 'Something went wrong. Users table exists.';
-            return 1;
-        }
+        } 
     } else {
         echo "Something went wrong. Please try again later.";
         return 1;
@@ -73,9 +70,6 @@ if ($stmt = mysqli_prepare($db_config, $sql)) {
                     }
                 }
             }
-        } else {
-            echo 'Something went wrong. Users table exists.';
-            return 1;
         }
     } else {
         echo "Something went wrong. Please try again later.";
